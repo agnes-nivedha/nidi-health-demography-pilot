@@ -7,7 +7,12 @@
 
 rm(list = ls())
 
-base_dir <- "E:/PHD/NIDI"
+# Set project directory
+base_dir <- getwd()
+
+# Raw data should be placed locally in data_raw/.
+# Raw data are not redistributed in this GitHub repository.
+data_dir <- file.path(base_dir, "data_raw")
 
 packages <- c("tidyverse", "janitor", "ggplot2")
 
@@ -18,9 +23,9 @@ for (pkg in packages) {
 library(tidyverse)
 library(janitor)
 
-output_dir <- file.path(base_dir, "outputs_part2b_sex_appendix")
-table_dir  <- file.path(output_dir, "tables")
-figure_dir <- file.path(output_dir, "figures")
+output_dir <- file.path(base_dir, "outputs")
+table_dir  <- file.path(output_dir, "tables", "part2b_sex_stratified_gradients")
+figure_dir <- file.path(output_dir, "figures", "part2b_sex_stratified_gradients")
 
 dir.create(table_dir, recursive = TRUE, showWarnings = FALSE)
 dir.create(figure_dir, recursive = TRUE, showWarnings = FALSE)
@@ -30,7 +35,7 @@ dir.create(figure_dir, recursive = TRUE, showWarnings = FALSE)
 # -----------------------------
 
 candidate_files <- list.files(
-  base_dir,
+  data_dir,
   pattern = "hlth_ehis_bm1e.*\\.tsv$",
   full.names = TRUE,
   recursive = TRUE,
@@ -38,7 +43,7 @@ candidate_files <- list.files(
 )
 
 if (length(candidate_files) == 0) {
-  stop("No hlth_ehis_bm1e TSV file found in E:/PHD/NIDI.")
+  stop("No hlth_ehis_bm1e TSV file found in data_raw/. Please download the Eurostat TSV file and place it there.")
 }
 
 # Pick the most recently modified file
