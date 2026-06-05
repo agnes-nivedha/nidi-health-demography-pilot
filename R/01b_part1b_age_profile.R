@@ -5,7 +5,12 @@
 
 rm(list = ls())
 
-base_dir <- "E:/PHD/NIDI"
+# Set project directory
+base_dir <- getwd()
+
+# Raw data should be placed locally in data_raw/.
+# Raw data are not redistributed in this GitHub repository.
+data_dir <- file.path(base_dir, "data_raw")
 
 packages <- c("tidyverse", "janitor", "ggplot2", "broom", "ggrepel")
 
@@ -18,9 +23,9 @@ library(janitor)
 library(broom)
 library(ggrepel)
 
-out_dir <- file.path(base_dir, "outputs_part1b_fixed")
-table_dir <- file.path(out_dir, "tables")
-figure_dir <- file.path(out_dir, "figures")
+output_dir <- file.path(base_dir, "outputs")
+table_dir  <- file.path(output_dir, "tables", "part1b_age_profile")
+figure_dir <- file.path(output_dir, "figures", "part1b_age_profile")
 
 dir.create(table_dir, recursive = TRUE, showWarnings = FALSE)
 dir.create(figure_dir, recursive = TRUE, showWarnings = FALSE)
@@ -30,7 +35,7 @@ dir.create(figure_dir, recursive = TRUE, showWarnings = FALSE)
 # -----------------------------
 
 all_files <- list.files(
-  base_dir,
+  data_dir,
   pattern = "Gezondheidsmonitor__regio__2024_04062026_(201221|200710|201039)(\\(1\\))?\\.csv$",
   full.names = TRUE,
   recursive = TRUE
