@@ -10,7 +10,12 @@
 
 # Set project directory
 # If running from the GitHub repository folder, this should work directly.
+# Set project directory
 base_dir <- getwd()
+
+# Raw data should be placed locally in data_raw/.
+# Raw data are not redistributed in this GitHub repository.
+data_dir <- file.path(base_dir, "data_raw")
 
 packages <- c("tidyverse", "broom", "ggrepel", "janitor")
 
@@ -38,7 +43,7 @@ dir.create(figure_dir, showWarnings = FALSE, recursive = TRUE)
 
 get_latest_file <- function(pattern) {
   files <- list.files(
-    base_dir,
+    data_dir,
     pattern = pattern,
     full.names = TRUE,
     ignore.case = TRUE
@@ -50,7 +55,7 @@ get_latest_file <- function(pattern) {
   
   files[which.max(file.info(files)$mtime)]
 }
-
+  
 health_file <- get_latest_file("Gezondheidsmonitor.*regio.*2024.*\\.csv$")
 ses_file    <- get_latest_file("Sociaal.*economische.*status.*\\.csv$")
 
@@ -653,10 +658,11 @@ cat("Suggested key paragraph:\n")
 cat(
   "Across selected Dutch municipalities, obesity prevalence was examined in relation to area-level SES-WOA, physical activity, and chronic-health burden. Area-level SES alone showed limited explanatory value, while physical activity and long-term conditions were more strongly associated with obesity. These preliminary ecological results suggest that Dutch obesity inequalities should be studied through a combined health-demographic framework linking social living environment, behavioural context, and chronic disease burden.\n"
 )
-##### test$$
-
-# Partial correlation: obesity and physical activity,
+# -----------------------------
+# 15. Partial correlation
+# Obesity and physical activity,
 # controlling for long-term conditions
+# -----------------------------
 
 df <- merged
 
