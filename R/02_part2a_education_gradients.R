@@ -8,7 +8,12 @@
 # 0. Setup
 # -----------------------------
 
-base_dir <- "E:/PHD/NIDI"
+# Set project directory
+base_dir <- getwd()
+
+# Raw data should be placed locally in data_raw/.
+# Raw data are not redistributed in this GitHub repository.
+data_dir <- file.path(base_dir, "data_raw")
 
 packages <- c("tidyverse", "janitor", "ggrepel")
 
@@ -22,9 +27,9 @@ library(tidyverse)
 library(janitor)
 library(ggrepel)
 
-output_dir <- file.path(base_dir, "outputs_part2")
-table_dir  <- file.path(output_dir, "tables")
-figure_dir <- file.path(output_dir, "figures")
+output_dir <- file.path(base_dir, "outputs")
+table_dir  <- file.path(output_dir, "tables", "part2a_education_gradients")
+figure_dir <- file.path(output_dir, "figures", "part2a_education_gradients")
 
 dir.create(output_dir, showWarnings = FALSE)
 dir.create(table_dir, showWarnings = FALSE, recursive = TRUE)
@@ -36,7 +41,7 @@ dir.create(figure_dir, showWarnings = FALSE, recursive = TRUE)
 
 get_latest_file <- function(pattern) {
   files <- list.files(
-    base_dir,
+  data_dir,
     pattern = pattern,
     full.names = TRUE,
     recursive = TRUE,
