@@ -8,7 +8,9 @@
 # 0. Setup
 # -----------------------------
 
-base_dir <- "E:/PHD/NIDI"
+# Set project directory
+# If running from the GitHub repository folder, this should work directly.
+base_dir <- getwd()
 
 packages <- c("tidyverse", "broom", "ggrepel", "janitor")
 
@@ -23,10 +25,9 @@ library(broom)
 library(ggrepel)
 library(janitor)
 
-output_dir <- file.path(base_dir, "outputs_part1")
+output_dir <- file.path(base_dir, "outputs")
 table_dir  <- file.path(output_dir, "tables")
 figure_dir <- file.path(output_dir, "figures")
-
 dir.create(output_dir, showWarnings = FALSE)
 dir.create(table_dir, showWarnings = FALSE, recursive = TRUE)
 dir.create(figure_dir, showWarnings = FALSE, recursive = TRUE)
