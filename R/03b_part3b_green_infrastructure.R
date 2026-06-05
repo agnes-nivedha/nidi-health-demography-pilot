@@ -7,14 +7,20 @@
 #   Finland     = Helsinki
 #   Poland      = Warsaw
 # ============================================================
-
+# These values are copied from Part 3A outputs.
+# In a larger workflow, this table could be read directly from the Part 3A output file.
 rm(list = ls())
 
 # -----------------------------
 # 0. Setup
 # -----------------------------
 
-base_dir <- "E:/PHD/NIDI"
+# Set project directory
+base_dir <- getwd()
+
+# Raw data should be placed locally in data_raw/.
+# Raw data are not redistributed in this GitHub repository.
+data_dir <- file.path(base_dir, "data_raw")
 
 packages <- c("tidyverse", "janitor", "ggrepel")
 
@@ -28,9 +34,9 @@ library(tidyverse)
 library(janitor)
 library(ggrepel)
 
-output_dir <- file.path(base_dir, "outputs_part3b_green_infrastructure")
-table_dir  <- file.path(output_dir, "tables")
-figure_dir <- file.path(output_dir, "figures")
+output_dir <- file.path(base_dir, "outputs")
+table_dir  <- file.path(output_dir, "tables", "part3b_green_infrastructure")
+figure_dir <- file.path(output_dir, "figures", "part3b_green_infrastructure")
 
 dir.create(table_dir, recursive = TRUE, showWarnings = FALSE)
 dir.create(figure_dir, recursive = TRUE, showWarnings = FALSE)
@@ -40,7 +46,7 @@ dir.create(figure_dir, recursive = TRUE, showWarnings = FALSE)
 # -----------------------------
 
 green_file <- list.files(
-  base_dir,
+  data_dir,
   pattern = "percentage-of-total-green-infrastructure.*\\.csv$",
   full.names = TRUE,
   recursive = TRUE,
@@ -48,7 +54,7 @@ green_file <- list.files(
 )
 
 if (length(green_file) == 0) {
-  stop("Could not find percentage-of-total-green-infrastructure.csv inside E:/PHD/NIDI")
+  stop("Could not find percentage-of-total-green-infrastructure.csv inside data_raw/. Please download the EEA CSV file and place it there.")
 }
 
 green_file <- green_file[which.max(file.info(green_file)$mtime)]
