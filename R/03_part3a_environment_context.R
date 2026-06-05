@@ -6,7 +6,12 @@
 #   nrg_ind_ren$defaultview_tabular.tsv
 # ============================================================
 
-base_dir <- "E:/PHD/NIDI"
+# Set project directory
+base_dir <- getwd()
+
+# Raw data should be placed locally in data_raw/.
+# Raw data are not redistributed in this GitHub repository.
+data_dir <- file.path(base_dir, "data_raw")
 
 packages <- c("tidyverse", "janitor")
 
@@ -17,9 +22,9 @@ for (pkg in packages) {
 library(tidyverse)
 library(janitor)
 
-output_dir <- file.path(base_dir, "outputs_part3")
-table_dir  <- file.path(output_dir, "tables")
-figure_dir <- file.path(output_dir, "figures")
+output_dir <- file.path(base_dir, "outputs")
+table_dir  <- file.path(output_dir, "tables", "part3a_environment_context")
+figure_dir <- file.path(output_dir, "figures", "part3a_environment_context")
 
 dir.create(table_dir, recursive = TRUE, showWarnings = FALSE)
 dir.create(figure_dir, recursive = TRUE, showWarnings = FALSE)
@@ -72,7 +77,7 @@ read_eurostat_wide_tsv <- function(path) {
 # -----------------------------
 
 pm25_file <- list.files(
-  base_dir,
+  data_dir,
   pattern = "sdg_11_52.*\\.tsv$",
   full.names = TRUE,
   recursive = TRUE,
@@ -80,15 +85,20 @@ pm25_file <- list.files(
 )[1]
 
 ren_file <- list.files(
-  base_dir,
+  data_dir,
   pattern = "nrg_ind_ren.*\\.tsv$",
   full.names = TRUE,
   recursive = TRUE,
   ignore.case = TRUE
 )[1]
 
-if (is.na(pm25_file)) stop("PM2.5 file not found. Put sdg_11_52 TSV inside E:/PHD/NIDI")
-if (is.na(ren_file)) stop("Renewable energy file not found. Put nrg_ind_ren TSV inside E:/PHD/NIDI")
+if (is.na(pm25_file)) {
+  stop("PM2.5 file not found. Put the sdg_11_52 TSV file inside data_raw/.")
+}
+
+if (is.na(ren_file)) {
+  stop("Renewable energy file not found. Put the nrg_ind_ren TSV file inside data_raw/.")
+}
 
 cat("PM2.5 file used:\n", pm25_file, "\n\n")
 cat("Renewable energy file used:\n", ren_file, "\n\n")
